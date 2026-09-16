@@ -20,7 +20,7 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: python alternances_app.py
+      - run: python scrap.py
 
       - name: Commit results
         run: |
