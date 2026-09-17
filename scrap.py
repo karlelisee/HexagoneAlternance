@@ -204,9 +204,17 @@ def scraper_et_fusionner() -> dict:
 
     nouvelles = 0
     for offre in toutes_brutes:
-        if offre["lien"] not in existantes:
-            existantes[offre["lien"]] = {**offre, "date_detectee": horodatage}
+        lien = offre["lien"]
+        if lien in existantes:
+            # Rafraîchit les métadonnées, conserve la date de première détection
+            date_detectee = existantes[lien].get("date_detectee") or horodatage
+            existantes[lien] = {**offre, "date_detectee": date_detectee}
+        else:
+            existantes[lien] = {**offre, "date_detectee": horodatage}
             nouvelles += 1
+
+    # Filet de sécurité : purge les lignes héritées sans type_contrat
+    existantes = {k: v for k, v in existantes.items() if v.get("type_contrat")}
 
     sauvegarder_offres(existantes)
     print(f"[{horodatage}] {nouvelles} nouvelle(s) offre(s), {len(existantes)} au total (avant : {nb_avant})")
