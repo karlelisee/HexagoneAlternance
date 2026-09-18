@@ -177,10 +177,19 @@ def charger_offres_existantes() -> dict:
     if not os.path.exists(CSV_PATH):
         return {}
     existantes = {}
-    with open(CSV_PATH, newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            existantes[row["lien"]] = row
+    try:
+        with open(CSV_PATH, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            if not reader.fieldnames or "lien" not in reader.fieldnames:
+                print("CSV au format obsolète ou illisible — repart de zéro.")
+                return {}
+            for row in reader:
+                lien = row.get("lien")
+                if lien:
+                    existantes[lien] = row
+    except Exception as e:
+        print(f"Erreur de lecture du CSV ({e}) — repart de zéro.")
+        return {}
     return existantes
 
 
