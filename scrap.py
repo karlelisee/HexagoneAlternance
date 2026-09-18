@@ -918,7 +918,6 @@ def generer_html(offres: list[dict]) -> str:
     </div>
 
     <div class="topbar-right">
-      # <div class="avatar" title="Compte (démo)">KK</div>
     </div>
   </div>
 </div>
@@ -928,7 +927,6 @@ def generer_html(offres: list[dict]) -> str:
 
     <div class="panel">
       <div class="profil">
-        # <div class="avatar">KK</div>
         <div>
           <div class="profil-nom">Étudiant Hexagone</div>
           <div class="profil-sous">Versailles · M1</div>
